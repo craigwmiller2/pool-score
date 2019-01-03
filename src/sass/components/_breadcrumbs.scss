@@ -1,0 +1,25 @@
+.breadcrumbs{
+  color: $c_black;
+  margin-top: 50px;
+  margin-bottom: 25px;
+
+  a{
+    color: $c_pri;
+    font-weight: 400;
+    text-decoration: none;
+
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+
+  .breadcrumbs-separator{
+    display: inline-block;
+    background-image: url(media/icons/icon-breadcrumb-separator.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 5px;
+    width: 20px;
+    height: 9px;
+  }
+}

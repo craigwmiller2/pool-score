@@ -1,0 +1,78 @@
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+
+  &.top-margin{
+    margin-top: 150px;
+  }
+
+  .gallery-item{
+    margin-top: 0 !important;
+    float: none !important;
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    @include transition-in-out;
+
+    &:hover{
+      // border-color: $c_pri;
+    }
+
+    &:after{
+      content: '';
+      display: block;
+      padding-bottom: 75%;
+    }
+
+    img{
+      height: 100%;
+      width: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1.05);
+
+      &.stretch{
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .wp-caption-text{
+      display: none;
+    }
+  }
+
+  &.gallery-columns-1{
+
+    .gallery-item{
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
+
+  // Grid loop for WordPress galleries
+  @for $i from 2 through 9{
+    &.gallery-columns-#{$i}{
+      display: grid;
+      grid-gap: 1rem;
+      grid-template-columns: repeat(#{$i}, 1fr);
+
+      .gallery-item{
+        width: 100%;
+      }
+
+      @media (max-width: 900px){
+        $j: $i - 1;
+        @if $j < 2{$j: 2;}
+        grid-template-columns: repeat(#{$j}, 1fr);
+      }
+
+      @media (max-width: 600px){
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+}
