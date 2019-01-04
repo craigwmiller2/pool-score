@@ -1,4 +1,4 @@
-=== Orknet Starter Theme ===
+=== Pool Score ===
 
 Contributors: automattic
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
@@ -9,11 +9,11 @@ Stable tag: 1.0.0
 License: GNU General Public License v2 or later
 License URI: LICENSE
 
-A starter theme called Orknet Starter Theme.
+A starter theme called Pool Score.
 
 == Description ==
 
-Orknet Starter Theme WordPress Theme
+Pool Score WordPress Theme
 
 == Installation ==
 
@@ -25,7 +25,7 @@ Orknet Starter Theme WordPress Theme
 
 = Does this theme support any plugins? =
 
-Orknet Starter Theme includes support for Infinite Scroll in Jetpack.
+Pool Score includes support for Infinite Scroll in Jetpack.
 
 == Changelog ==
 

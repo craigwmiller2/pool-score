@@ -1,0 +1,70 @@
+.score-card{
+  background-color: $c_white;
+  @include box-shadow;
+  padding: 10px;
+  border-radius: 3px;
+  max-width: 500px;
+  margin: 0 auto 20px;
+
+  &__player-details{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $c_border;
+
+    .player-details__group{
+      display: flex;
+      align-items: center;
+
+      img{
+        width: 40px;
+        height: auto;
+        border-radius: 50%;
+        align-self: flex-start;
+        margin-right: 10px;
+      }
+
+      h2{
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+
+    .position{
+      font-weight: bold;
+    }
+  }
+
+  &__player-scores{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+
+    .player-scores__group{
+
+      .score{
+        font-weight: bold;
+
+        &:first-child{
+          margin-right: 10px;
+        }
+      }
+
+      &-fp sup{
+        color: $c_pri;
+      }
+
+      &-mp sup{
+        color: $c_sec;
+      }
+
+    }
+
+  }
+
+  sup{
+    vertical-align: super;
+    font-size: smaller;
+    margin-left: 1px;
+  }
+}

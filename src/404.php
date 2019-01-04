@@ -4,7 +4,7 @@
  *
  * @link https://codex.wordpress.org/Creating_an_Error_404_Page
  *
- * @package Orknet_Starter_Theme
+ * @package Pool_Score
  */
 
 get_header();

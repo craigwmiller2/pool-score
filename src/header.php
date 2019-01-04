@@ -4,7 +4,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
- * @package Orknet_Starter_Theme
+ * @package Pool_Score
  */
 
 ?>
@@ -19,3 +19,8 @@
 
 <body <?php body_class(); ?>>
 <div id="page" class="site">
+	<header class="site-header">
+		<a class="site-logo" href="<?php echo site_url(); ?>">
+			<img src="<?php echo get_template_directory_uri() . '/media/logos/pool-scores-logo.svg'; ?>" alt="Pool Scores Logo">
+		</a>
+	</header>

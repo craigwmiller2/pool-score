@@ -2,19 +2,19 @@
 /**
  * Advanced Custom Fields PRO - Options Page
  *
- * @package Orknet_Starter_Theme
+ * @package Pool_Score
  */
 
 if( function_exists('acf_add_options_page') ) {
 
   // Theme settings options section
   $parent = acf_add_options_page(array(
-    'page_title' 	=> 'Theme Settings',
-    'menu_title'	=> 'Theme Settings',
-    'menu_slug' 	=> 'theme-settings',
+    'page_title' 	=> 'Scores',
+    'menu_title'	=> 'Scores',
+    'menu_slug' 	=> 'pool-scores',
     'capability'	=> 'edit_posts',
     'redirect'		=> false,
-    'icon_url'		=> 'dashicons-admin-settings',
+    'icon_url'		=> 'dashicons-image-filter',
     'position'    => 1
   ));
 

@@ -138,8 +138,8 @@ gulp.task('js', () => {
   return gulp.src(js.src)
     .pipe(deporder())
     .pipe(concat(js.filename))
-    .pipe(stripdebug())
-    .pipe(uglify())
+    // .pipe(stripdebug())
+    // .pipe(uglify())
     .pipe(gulp.dest(js.build))
     .pipe(browsersync ? browsersync.reload({ stream: true }) : gutil.noop());
 
@@ -196,5 +196,6 @@ gulp.task('replace_all', function(){
     .pipe(replace('orknet_starter_theme', 'pool_score'))
     .pipe(replace('orknet-starter-theme', 'pool-score'))
     .pipe(replace('Orknet Starter Theme', 'Pool Score'))
-    .pipe(gulp.dest(dir.build));
+    .pipe(gulp.dest(dir.src));
+    // .pipe(gulp.dest(dir.build));
 });

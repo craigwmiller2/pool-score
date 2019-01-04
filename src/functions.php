@@ -1,13 +1,13 @@
 <?php
 /**
- * Orknet Starter Theme functions and definitions
+ * Pool Score functions and definitions
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package Orknet_Starter_Theme
+ * @package Pool_Score
  */
 
-if ( ! function_exists( 'orknet_starter_theme_setup' ) ) :
+if ( ! function_exists( 'pool_score_setup' ) ) :
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
 	 *
@@ -15,7 +15,7 @@ if ( ! function_exists( 'orknet_starter_theme_setup' ) ) :
 	 * runs before the init hook. The init hook is too late for some features, such
 	 * as indicating support for post thumbnails.
 	 */
-	function orknet_starter_theme_setup() {
+	function pool_score_setup() {
 
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
@@ -40,7 +40,7 @@ if ( ! function_exists( 'orknet_starter_theme_setup' ) ) :
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'orknet-starter-theme' ),
+			'menu-1' => esc_html__( 'Primary', 'pool-score' ),
 		) );
 
 		/*
@@ -60,41 +60,41 @@ if ( ! function_exists( 'orknet_starter_theme_setup' ) ) :
 
 	}
 endif;
-add_action( 'after_setup_theme', 'orknet_starter_theme_setup' );
+add_action( 'after_setup_theme', 'pool_score_setup' );
 
 /**
  * Register widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
-function orknet_starter_theme_widgets_init() {
+function pool_score_widgets_init() {
 	register_sidebar( array(
-		'name'          => esc_html__( 'Sidebar', 'orknet-starter-theme' ),
+		'name'          => esc_html__( 'Sidebar', 'pool-score' ),
 		'id'            => 'sidebar-1',
-		'description'   => esc_html__( 'Add widgets here.', 'orknet-starter-theme' ),
+		'description'   => esc_html__( 'Add widgets here.', 'pool-score' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	) );
 }
-add_action( 'widgets_init', 'orknet_starter_theme_widgets_init' );
+add_action( 'widgets_init', 'pool_score_widgets_init' );
 
 /**
  * Enqueue scripts and styles.
  */
-function orknet_starter_theme_scripts() {
-	wp_enqueue_style( 'orknet-starter-theme-style', get_stylesheet_uri() );
+function pool_score_scripts() {
+	wp_enqueue_style( 'pool-score-style', get_stylesheet_uri() );
 
 	// Main JS File
-	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js' . '?' . filemtime(get_template_directory() . '/js/main.js'), array( 'jquery', 'jquery-ui' ), '', true );
+	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js' . '?' . filemtime(get_template_directory() . '/js/main.js'), array( 'jquery' ), '', true );
 	wp_localize_script( 'main-js', 'JS_OBJ', array( 'siteurl' => site_url() ) );
 
 	// Google Fonts
-	wp_enqueue_style( 'roboto', 'https://fonts.googleapis.com/css?family=Roboto' );
+	wp_enqueue_style( 'font', 'https://fonts.googleapis.com/css?family=Montserrat:400,700' );
 
 }
-add_action( 'wp_enqueue_scripts', 'orknet_starter_theme_scripts' );
+add_action( 'wp_enqueue_scripts', 'pool_score_scripts' );
 
 /**
  * Custom Post Types.
@@ -120,6 +120,11 @@ require get_template_directory() . '/inc/acf/acf-google-maps.php';
  * Breadcrumbs
  */
 require get_template_directory() . '/inc/breadcrumbs.php';
+
+/**
+ * Require REST API endpoints
+ */
+require get_template_directory() . '/inc/rest/rest.php';
 
 /**
  * Stop images being wrapped in <p> tags

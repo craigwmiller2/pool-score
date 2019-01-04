@@ -4,7 +4,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
- * @package Orknet_Starter_Theme
+ * @package Pool_Score
  */
 
 ?>

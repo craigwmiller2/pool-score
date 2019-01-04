@@ -4,7 +4,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#search-result
  *
- * @package Orknet_Starter_Theme
+ * @package Pool_Score
  */
 
 get_header();

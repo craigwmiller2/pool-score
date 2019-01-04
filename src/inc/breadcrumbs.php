@@ -2,7 +2,7 @@
 /**
  * The template for breadcrumbs
  *
- * @package Orknet_Starter_Theme
+ * @package Pool_Score
  */
 
 //  to include in functions.php

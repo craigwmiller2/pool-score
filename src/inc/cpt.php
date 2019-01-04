@@ -2,10 +2,10 @@
 /**
  * Media Template
  *
- * @package Orknet_Starter_Theme
+ * @package Pool_Score
  */
 
-function orknet_starter_theme_cpt() {
+function pool_score_cpt() {
 
   // register_post_type( 'rooms',
   //   array(
@@ -23,4 +23,4 @@ function orknet_starter_theme_cpt() {
   // );
 
 }
-add_action( 'init', 'orknet_starter_theme_cpt' );
+add_action( 'init', 'pool_score_cpt' );

@@ -1,0 +1,19 @@
+.button{
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: $c_pri;
+  color: $c_white;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 22px;
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+
+  &:focus{
+    outline: none;
+  }
+}
