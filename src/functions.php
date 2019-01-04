@@ -88,7 +88,7 @@ function pool_score_scripts() {
 
 	// Main JS File
 	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js' . '?' . filemtime(get_template_directory() . '/js/main.js'), array( 'jquery' ), '', true );
-	wp_localize_script( 'main-js', 'JS_OBJ', array( 'siteurl' => site_url() ) );
+	wp_localize_script( 'main-js', 'JS_OBJ', array( 'site_url' => site_url() ) );
 
 	// Google Fonts
 	wp_enqueue_style( 'font', 'https://fonts.googleapis.com/css?family=Montserrat:400,700' );

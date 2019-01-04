@@ -6,9 +6,28 @@
   max-width: 500px;
   margin: 0 auto 20px;
 
+  &--new-match{
+
+    .frame-point{
+      font-weight: bold;
+
+      sup{
+        color: $c_pri;
+      }
+    }
+  }
+
+  &__button-group{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
+    padding-top: 10px;
+  }
+
   &__player-details{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding-bottom: 10px;
     border-bottom: 1px solid $c_border;
 

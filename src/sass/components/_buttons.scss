@@ -12,8 +12,31 @@
   font-weight: bold;
   font-size: 20px;
   text-decoration: none;
+  @include transition-in-out;
 
   &:focus{
     outline: none;
+  }
+
+  &:disabled{
+    background-color: tint($c_pri, 50%);
+  }
+}
+
+.score-button{
+  width: 100%;
+  height: 45px;
+  background-color: $c_pri;
+  color: $c_white;
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
+
+  &:focus{
+    outline: none;
+  }
+
+  &:disabled{
+    background-color: tint($c_pri, 50%);
   }
 }

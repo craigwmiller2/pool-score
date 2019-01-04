@@ -1,11 +1,15 @@
 jQuery(document).ready(function($){
 
+  // store player data from request
   let player_data;
+
+  // new match data to be sent to server
+  let new_match_data = new Array();
 
   function loadScores() {
 
     $.ajax({
-      url: 'http://localhost:3000/pool-score/wp-json/scores/v1/scores',
+      url: JS_OBJ.site_url + '/wp-json/scores/v1/scores/',
       method: 'GET',
       dataType: 'json',
       cache: false,
@@ -25,6 +29,7 @@ jQuery(document).ready(function($){
 
   function scoreCard( data, position ){
 
+    let id = data.player_details.id;
     let img = data.player_details.image;
     let name = data.player_details.name;
     let pos = ordinal_suffix_of( position );
@@ -34,13 +39,13 @@ jQuery(document).ready(function($){
     let mp = data.score.mp;
     let mp_pct = data.score.mp_pct;
 
-    let card = `<div class="score-card">
+    let card = `<div class="score-card" data-player-id="${id}">
                   <div class="score-card__player-details">
                     <div class="player-details__group">
                       <img src="${img}" alt="${name}" />
                       <h2>${name}</h2>
                     </div>
-                    <span class="position">${pos}</span>
+                    <span class="position counter">${pos}</span>
                   </div>
                   <div class="score-card__player-scores">
                     <div class="player-scores__group player-scores__group-fp">
@@ -70,5 +75,150 @@ jQuery(document).ready(function($){
     }
     return i + "<sup>th</sup>";
   }
+
+  // $('.counter').each(function() {
+  //   var $this = $(this),
+  //       countTo = $this.attr('data-count');
+  //
+  //   $({ countNum: $this.text()}).animate({
+  //     countNum: countTo
+  //   },
+  //
+  //   {
+  //
+  //     duration: 8000,
+  //     easing:'linear',
+  //     step: function() {
+  //       $this.text(Math.floor(this.countNum));
+  //     },
+  //     complete: function() {
+  //       $this.text(this.countNum);
+  //     }
+  //
+  //   });
+  //
+  // });
+
+  $('body').on('click', 'button.button--new-match', function(){
+
+    let $this = $(this);
+
+    $this.removeClass('button--new-match');
+    $this.addClass('button--confirm-match');
+
+    $this.attr('disabled', true);
+
+    $this.text('Confirm Match');
+
+
+
+    for (var i = 0; i < player_data.length; i++) {
+      $('.new-match-container').append( newMatchCard(player_data[i]) );
+    }
+
+    $('.score-container').addClass('fade');
+    $('.new-match-container').removeClass('hide');
+
+    setTimeout(function(){
+      $('.score-container').addClass('hide');
+      $('.new-match-container').removeClass('fade');
+    }, 250);
+
+  });
+
+  function newMatchCard( data ) {
+
+    let id = data.player_details.id;
+    let img = data.player_details.image;
+    let name = data.player_details.name;
+
+    let card = `<div class="score-card score-card--new-match" data-player-id="${id}">
+                  <div class="score-card__player-details">
+                    <div class="player-details__group">
+                      <img src="${img}" alt="${name}" />
+                      <h2>${name}</h2>
+                    </div>
+                    <span class="frame-point"><span class="score" data-score="0">0</span><sup>FP</sup></span>
+                  </div>
+                  <div class="score-card__button-group">
+                    <button class="score-button score-button--minus" disabled="disabled">-</button>
+                    <button class="score-button score-button--plus">+</button>
+                  </div>
+               </div>`;
+    return card;
+
+  }
+
+  $('body').on('click', '.score-button', function(){
+
+    let $this = $(this);
+    let id = $this.closest('.score-card').data('player-id');
+
+    // current score
+    let score_element = $this.closest('.score-card').find('.score');
+    let score = parseInt(score_element.attr('data-score'));
+
+    if ( $this.hasClass('score-button--plus') ) {
+      score = score + 1;
+    } else if ( $this.hasClass('score-button--minus') ) {
+      score = score - 1;
+
+      if ( score == 0 ) {
+        $this.attr('disabled', true);
+      }
+    }
+
+    if ( score > 0 ) {
+      $this.siblings('.score-button--minus').attr('disabled', false);
+    }
+
+    score_element.text(score);
+    score_element.attr('data-score', score);
+
+    // find if there is already an entry with this player id
+    let index = new_match_data.findIndex(x => x.id == id);
+
+    // if does not exist, push new object to array
+    if ( index === -1 ) {
+      new_match_data.push({
+        id: id,
+        score: score
+      });
+    } else {
+      // else update that index with new score
+      new_match_data[index].score = score;
+    }
+
+    $('.button--confirm-match').attr('disabled', false);
+
+    let player_id = $this.closest('.score-card').data('player-id');
+
+  });
+
+  $('body').on('click', '.button--confirm-match', function(){
+
+    console.log(new_match_data);
+
+    $.ajax({
+      url: JS_OBJ.site_url + '/wp-json/scores/v1/update-scores/',
+      data: {
+        scores: new_match_data
+      },
+      type: 'post',
+
+      beforeSend: function() {
+      },
+
+      success: function(data) {
+        console.log(data);
+      },
+
+      error: function() {
+        console.log('failed!');
+      }
+
+    });
+
+  });
 
 });

@@ -23,6 +23,7 @@ function getScores() {
 
       $player_data = array();
 
+      $player_data['player_details']['id'] = get_sub_field( 'player_id' );
       $player_data['player_details']['name'] = get_sub_field( 'player_name' );
       $player_data['player_details']['image'] = get_sub_field( 'player_picture' )['sizes']['thumbnail'];
 
