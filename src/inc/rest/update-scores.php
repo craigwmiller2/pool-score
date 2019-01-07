@@ -19,6 +19,8 @@ function update_scores( WP_REST_Request $request ) {
 
   $players = $_POST['scores'];
 
+  $updated_scores = array();
+
   foreach ( $players as $player ) {
     if ( have_rows( 'player', 'scores_page' ) ) {
 
@@ -35,8 +37,8 @@ function update_scores( WP_REST_Request $request ) {
         $current_fp = get_sub_field( 'frame_points' );
         $current_mp = get_sub_field( 'match_points' );
 
-        $new_fp = $current_fp + $player['fp'];
-        $new_mp = $current_mp + $player['mp'];
+        $new_fp = $current_fp + $player['score']['fp'];
+        $new_mp = $current_mp + $player['score']['mp'];
 
         // if player id matches new score player id
         if ( $id == $player['id'] ) {
@@ -49,10 +51,12 @@ function update_scores( WP_REST_Request $request ) {
             'match_points' => $new_mp
           );
 
+          $updated_scores[] = $update;
+
           // update row
           update_row( 'player', $index, $update, 'scores_page' );
 
-          return $update;
+          unset( $update );
 
         }
 
@@ -61,10 +65,30 @@ function update_scores( WP_REST_Request $request ) {
     }
   }
 
-  // update scores
+  $fp_total = getTheTotal( $updated_scores, 'frame_points' );
+  $mp_total = getTheTotal( $updated_scores, 'match_points' );
 
-  // recalculate percentages etc
+  for ($i=0; $i < count($updated_scores); $i++) {
 
-  // return data to update score cards
+    $updated_scores[$i]['fp_pct'] = number_format( (float) ($updated_scores[$i]['frame_points'] / $fp_total  * 100), 2, '.', '');
+    $updated_scores[$i]['mp_pct'] = number_format( (float) ($updated_scores[$i]['match_points'] / $mp_total  * 100), 2, '.', '');
+
+  }
+
+  return $updated_scores;
+
+}
+
+function getTheTotal( $data, $point ) {
+
+  $total = 0;
+
+  for ($i=0; $i < count($data); $i++) {
+
+    $total += $data[$i][$point];
+
+  }
+
+  return $total;
 
 }

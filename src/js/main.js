@@ -49,12 +49,12 @@ jQuery(document).ready(function($){
                   </div>
                   <div class="score-card__player-scores">
                     <div class="player-scores__group player-scores__group-fp">
-                      <span class="score">${fp}<sup>FP</sup></span>
-                      <span class="score">${fp_pct}<sup>%</sup></span>
+                      <span class="score"><span class="score-num score-fp" data-count="${fp}">${fp}</span><sup>FP</sup></span>
+                      <span class="score"><span class="score-num score-fp-pct" data-count="${fp_pct}">${fp_pct}</span><sup>%</sup></span>
                     </div>
                     <div class="player-scores__group player-scores__group-mp">
-                      <span class="score">${mp}<sup>MP</sup></span>
-                      <span class="score">${mp_pct}<sup>%</sup></span>
+                      <span class="score"><span class="score-num score-mp" data-count="${mp}">${mp}</span><sup>MP</sup></span>
+                      <span class="score"><span class="score-num score-mp-pct" data-count="${mp_pct}">${mp_pct}</span><sup>%</sup></span>
                     </div>
                   </div>
                </div>`;
@@ -75,29 +75,6 @@ jQuery(document).ready(function($){
     }
     return i + "<sup>th</sup>";
   }
-
-  // $('.counter').each(function() {
-  //   var $this = $(this),
-  //       countTo = $this.attr('data-count');
-  //
-  //   $({ countNum: $this.text()}).animate({
-  //     countNum: countTo
-  //   },
-  //
-  //   {
-  //
-  //     duration: 8000,
-  //     easing:'linear',
-  //     step: function() {
-  //       $this.text(Math.floor(this.countNum));
-  //     },
-  //     complete: function() {
-  //       $this.text(this.countNum);
-  //     }
-  //
-  //   });
-  //
-  // });
 
   $('body').on('click', 'button.button--new-match', function(){
 
@@ -182,11 +159,14 @@ jQuery(document).ready(function($){
     if ( index === -1 ) {
       new_match_data.push({
         id: id,
-        score: score
+        score: {
+          fp: score,
+          mp: 0
+        }
       });
     } else {
       // else update that index with new score
-      new_match_data[index].score = score;
+      new_match_data[index].score.fp = score;
     }
 
     $('.button--confirm-match').attr('disabled', false);
@@ -197,7 +177,20 @@ jQuery(document).ready(function($){
 
   $('body').on('click', '.button--confirm-match', function(){
 
-    console.log(new_match_data);
+    let $this = $(this);
+
+    if ( new_match_data[0].score.fp !== new_match_data[1].score.fp ) {
+      // find which player in array has the highest score
+      let winner = new_match_data.reduce(function(prev, cur) {
+        return (prev.score.fp > cur.score.fp) ? prev : cur;
+      } );
+
+      // based on object returned, use their ID to find the array index in the original array
+      let index = new_match_data.findIndex(x => x.id == winner.id);
+
+      // target the original array using the winning index and add a match point
+      new_match_data[index].score.mp = 1;
+    }
 
     $.ajax({
       url: JS_OBJ.site_url + '/wp-json/scores/v1/update-scores/',
@@ -210,7 +203,42 @@ jQuery(document).ready(function($){
       },
 
       success: function(data) {
-        console.log(data);
+        new_match_data = [];
+
+        $this.removeClass('button--confirm-match');
+        $this.text('New Match');
+        $this.addClass('button--new-match')
+
+        $('.score-container').removeClass('hide');
+        $('.new-match-container').addClass('fade');
+
+        setTimeout(function(){
+          $('.score-container').removeClass('fade');
+          $('.new-match-container').addClass('hide');
+          $('.new-match-container').empty();
+
+          // update current cards
+          for (var i = 0; i < data.length; i++) {
+
+            let id = data[i].player_id;
+
+            let card = $(`.score-card[data-player-id="${id}"]`);
+
+            card.find('.score-fp').data('count', data[i].frame_points);
+            card.find('.score-fp-pct').data('count', data[i].fp_pct);
+
+            card.find('.score-mp').data('count', data[i].match_points);
+            card.find('.score-mp-pct').data('count', data[i].mp_pct);
+
+            animate_count($('.score-fp', card));
+            animate_count($('.score-fp-pct', card), true);
+            animate_count($('.score-mp', card));
+            animate_count($('.score-mp-pct', card), true);
+
+          }
+
+        }, 250);
+
       },
 
       error: function() {
@@ -220,5 +248,21 @@ jQuery(document).ready(function($){
     });
 
   });
+
+  function animate_count( $el, is_decimal ) {
+  	is_decimal = is_decimal || false;
+
+    let new_num = $el.data('count');
+    let org_num = parseInt($el.html());
+
+  	jQuery({ counter: org_num }).animate({ counter: is_decimal ? parseFloat(new_num) : parseInt(new_num) }, {
+  		duration: 1000,
+  		easing: 'swing',
+  		step: function () {
+  			text = is_decimal ? this.counter.toFixed(2) : Math.ceil(this.counter);
+  			$el.text(text);
+  		}
+  	});
+  }
 
 });
