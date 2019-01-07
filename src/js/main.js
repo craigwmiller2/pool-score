@@ -78,6 +78,28 @@ jQuery(document).ready(function($){
 
   $('body').on('click', 'button.button--new-match', function(){
 
+    // init new_match_data object (hardcoded for the time being)
+    // this would be dynamically created based on the players selected for the match,
+    // but as it is just 2 players and most likely wont be more, I will leave it hardcoded
+    new_match_data.push(
+      {
+        id: 1,
+        score: {
+          fp: 0,
+          mp: 0
+        }
+      },
+      {
+        id: 2,
+        score: {
+          fp: 0,
+          mp: 0
+        }
+      }
+    );
+
+    new_match_data.push();
+
     let $this = $(this);
 
     $this.removeClass('button--new-match');
@@ -86,8 +108,6 @@ jQuery(document).ready(function($){
     $this.attr('disabled', true);
 
     $this.text('Confirm Match');
-
-
 
     for (var i = 0; i < player_data.length; i++) {
       $('.new-match-container').append( newMatchCard(player_data[i]) );
