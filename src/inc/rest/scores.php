@@ -14,11 +14,11 @@ add_action( 'rest_api_init', function () {
 
 function getScores() {
 
-  if ( have_rows( 'player', 'option' ) ) {
+  if ( have_rows( 'player', 'scores_page' ) ) {
 
     $players = array();
 
-    while ( have_rows( 'player', 'option' ) ) {
+    while ( have_rows( 'player', 'scores_page' ) ) {
       the_row();
 
       $player_data = array();

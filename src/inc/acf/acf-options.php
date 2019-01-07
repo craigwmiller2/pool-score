@@ -15,7 +15,8 @@ if( function_exists('acf_add_options_page') ) {
     'capability'	=> 'edit_posts',
     'redirect'		=> false,
     'icon_url'		=> 'dashicons-image-filter',
-    'position'    => 1
+    'position'    => 1,
+    'post_id'     => 'scores_page'
   ));
 
   // acf_add_options_sub_page(array(

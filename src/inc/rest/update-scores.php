@@ -20,9 +20,9 @@ function update_scores( WP_REST_Request $request ) {
   $players = $_POST['scores'];
 
   foreach ( $players as $player ) {
-    if ( have_rows( 'player', 'option' ) ) {
+    if ( have_rows( 'player', 'scores_page' ) ) {
 
-      while ( have_rows( 'player', 'option' ) ) {
+      while ( have_rows( 'player', 'scores_page' ) ) {
         the_row();
 
         // get current loop row index
@@ -50,7 +50,7 @@ function update_scores( WP_REST_Request $request ) {
           );
 
           // update row
-          update_row( 'player', $index, $update, 'option' );
+          update_row( 'player', $index, $update, 'scores_page' );
 
           return $update;
 
